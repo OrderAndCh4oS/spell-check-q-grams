@@ -50,6 +50,6 @@ if __name__ == '__main__':
     q = 3
     print(extract_all_q_grams(words, q))
     q_grams = extract_all_q_grams(words, q)
-    closest_matches = find_closet_matches(q_grams, 'sweatbread', q)
+    result = find_closet_matches(q_grams, 'sweatbread', q)
 
-    print(closest_matches)
+    print(result)
