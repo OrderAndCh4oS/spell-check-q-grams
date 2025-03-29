@@ -1,6 +1,3 @@
-from rapidfuzz.distance.Levenshtein import distance
-
-
 def extract_q_grams(word, q):
     """
     Returns a list of all contiguous q-grams of length q from the given word.
@@ -36,7 +33,22 @@ def find_closet_matches(q_grams, word, q):
             matches[w] = matches.get(w, 0) + 1
     closest_matches = sorted(matches, key=matches.get, reverse=True)[:100]
 
-    return sorted(closest_matches, key=lambda m: distance(word, m))[:5]
+    return sorted(closest_matches, key=lambda m: levenshtein_distance(word, m))[:5]
+
+def levenshtein_distance(a, b):
+    m = len(a)
+    n = len(b)
+    matrix = [list(range(0, n + 1))] + [[i] for i in range(1, m + 1)]
+    for j in range(1, n + 1):
+        for i in range(1, m + 1):
+            insert_cost = matrix[i][j - 1] + 1
+            delete_cost = matrix[i - 1][j] + 1
+            substitution_cost = 0 if a[i - 1] == b[j - 1] else 1
+            substitute_cost = matrix[i - 1][j - 1] + substitution_cost
+            min_cost = min(insert_cost, delete_cost, substitute_cost)
+            matrix[i].insert(j, min_cost)
+
+    return matrix[-1][-1]
 
 
 if __name__ == '__main__':
