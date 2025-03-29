@@ -46,9 +46,7 @@ if __name__ == '__main__':
             stripped = line.strip()
             if stripped:
                 words.append(stripped)
-    print(words)
     q = 3
-    print(extract_all_q_grams(words, q))
     q_grams = extract_all_q_grams(words, q)
     result = find_closet_matches(q_grams, 'sweatbread', q)
 
